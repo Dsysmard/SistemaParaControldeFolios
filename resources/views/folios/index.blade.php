@@ -6,7 +6,15 @@
 <h1>ADMINISTRADOR DE FOLIOS</h1><hr/>
 </div>
   <div class="row jumbotron big-padding text-center blue-grey">
-   
+   {!! Form::open(['route' => 'folios/search', 'method' => 'post', 'novalidate', 'class' => 'form-inline']) !!}
+          <div class="form-group">
+            <label for="exampleInputName2">Buscar</label>
+            <input type="text" class="form-control" name = "num_folio" placeholder='Ingresa dato para buscar'>
+          </div>
+          <button type="submit" class="btn btn-primary">Buscar</button>
+        <a href="{{ route('folios.index') }}" class="btn btn-info">Mostrar Todos</a>
+         <a href="{{ route('folios.create') }}" class="btn btn-success">Crear</a>
+        {!! Form::close() !!}
   <br>
     <table class="table table-condensed table-striped table-bordered ">
             <thead class="nav nav-tabs white-text">

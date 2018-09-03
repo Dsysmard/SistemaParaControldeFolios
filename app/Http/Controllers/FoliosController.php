@@ -11,75 +11,73 @@ class FoliosController extends Controller
     {
         $this->middleware('auth');
     }
+
+    public function search(Request $request)
+    {
+         $folios= Folio::where('num_folio','like','%'.$request->num_folio.'%')->get(); 
+
+        //Cambiando la clausula de conexion soportada por Heroku ya que utiliza postgresql y no mysql
+        //$pedidos = Pedido::where('idcliente', '=', $request->idcliente)->get();
+        return \View::make('folios.index',compact('folio'));
+    }
+
     public function index()
     {
         $folios = Folio::all();
         return \View::make('folios.index', compact('folios'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return \View::make('folios.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $folios = new Folio;
+
+        $folios->num_folio = $request->num_folio;
+        $folios->nombre_creador = $request->nombre_creador;
+        $folios->nom_departamento_emitido = $request->nom_departamento_emitido;
+        $folios->nom_dependecia_dirigido = $request->nom_dependecia_dirigido;
+
+        
+        $folios->save();
+
+        return redirect('/folios');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $folios = Folio::find($id);
+        return view ('folios.update',["folios" => $folios]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $folios = Folio::find($id);;
+
+        $folios->id_municipio = $request->id_municipio;
+        $folios->nombremunicipio = $request->nombremunicipio;
+        
+        if($folios->save())
+        {
+            return redirect("/desarrollosocial/folios");
+        }
+        else{
+            return view("desarrollosocial/folios.edit", ["folios" => $folios]);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $folios = Folio::find($id);
+        $folios->delete();
+        return redirect()->back();
     }
 }
