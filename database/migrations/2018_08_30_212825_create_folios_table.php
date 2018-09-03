@@ -15,10 +15,11 @@ class CreateFoliosTable extends Migration
     {
         Schema::create('folios', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('num_folio');
+            $table->integer('num_folio')->unique();
             $table->string('nombre_creador');
             $table->string('nom_departamento_emitido');
             $table->string('nom_dependecia_dirigido');
+            $table->string('documento')->default('default.jpg');
             $table->timestamps();
         });
     }

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Folio as Folio;
-
+use Auth;
+use Image;
 class FoliosController extends Controller
 {
     public function __construct()
@@ -41,6 +42,16 @@ class FoliosController extends Controller
         $folios->nom_departamento_emitido = $request->nom_departamento_emitido;
         $folios->nom_dependecia_dirigido = $request->nom_dependecia_dirigido;
 
+        if($request->hasFile('documento')){
+            $documento = $request->file('documento');
+            $filename = time() . '.' . $documento->getClientOriginalExtension();
+            Image::make($documento)->resize(300, 300)->save( public_path('/uploads/avatars/' . $filename ) );
+
+            $folios->documento = $request->documento;
+            $folios->documento = $filename;
+            $folios->save();
+        }
+
         
         $folios->save();
 
@@ -62,15 +73,18 @@ class FoliosController extends Controller
     {
         $folios = Folio::find($id);;
 
-        $folios->id_municipio = $request->id_municipio;
-        $folios->nombremunicipio = $request->nombremunicipio;
+        
+        $folios->num_folio = $request->num_folio;
+        $folios->nombre_creador = $request->nombre_creador;
+        $folios->nom_departamento_emitido = $request->nom_departamento_emitido;
+        $folios->nom_dependecia_dirigido = $request->nom_dependecia_dirigido;
         
         if($folios->save())
         {
-            return redirect("/desarrollosocial/folios");
+            return redirect("folios");
         }
         else{
-            return view("desarrollosocial/folios.edit", ["folios" => $folios]);
+            return view("folios.edit", ["folios" => $folios]);
         }
     }
 

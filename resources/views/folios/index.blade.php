@@ -24,6 +24,7 @@
                   <th>Nombre de creador</th>
                   <th>Nombre del departamento emisor</th>
                   <th>Nombre de la dependencia a quien va dirigido</th>
+                  <th>Documento</th>
                   <th>Acciones</th>
                 </tr>
             </thead>
@@ -35,8 +36,11 @@
                     <td>{{ $folio->nombre_creador }}</td>
                     <td>{{ $folio->nom_departamento_emitido }}</td>
                     <td>{{ $folio->nom_dependecia_dirigido }}</td>
+                    <td><img src="/uploads/avatars/{{ $folios->documento}}" style="width:150px; height:150px; float:left; border-radius:0%; margin-right:25px;">
+                    </td>
                     <td>
-                         
+                         <a class="btn btn-primary " href="{{ url('folios/' .$folio->id .'/edit')}}" >Editar</a>
+                         <a class="btn btn-danger " href="{{ route('folios/destroy',['id' => $folio->id] )}}" >Eliminar</a> 
                     </td>
 
                 </tr>

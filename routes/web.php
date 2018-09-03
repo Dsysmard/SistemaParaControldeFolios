@@ -20,4 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::resource('/folios', 'FoliosController');
+Route::get('folios/destroy/{id}', ['as' => 'folios/destroy', 'uses' => 'FoliosController@destroy']);
 Route::post('folios/search', ['as' => 'folios/search', 'uses'=>'FoliosController@search']);

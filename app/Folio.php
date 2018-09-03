@@ -13,5 +13,6 @@ class Folio extends Model
     	'nombre_creador',
     	'nom_departamento_emitido',
     	'nom_dependencia_dirigido',
+    	'documento'
     ];
 }
